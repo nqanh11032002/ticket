@@ -1,0 +1,25 @@
+spring:
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    gateway:
+      routes:
+        - id: service1
+          uri: localhost:8083
+          predicates:
+            - Path=/service1/api/**
+        - id: service2
+          uri: localhost:8085
+          predicates:
+            - Path=/service2/api/**
+  application:
+    name: gateway
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+server:
+  port: 8082
