@@ -1,10 +1,7 @@
 package com.guild.user.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,10 +32,6 @@ public class User {
 
     private String email;
 
-    private int role_id;
-
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id", insertable=false, updatable=false)
-    @JsonBackReference
     private Role role;
+
 }
