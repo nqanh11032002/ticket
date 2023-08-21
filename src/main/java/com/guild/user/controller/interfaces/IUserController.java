@@ -8,6 +8,7 @@ public interface IUserController {
     public ResponseObject getUser(int id);
     public ResponseObject updateUser(int id, User user);
     public ResponseObject insertUser(User user);
-    public ResponseObject removeUser(int id);
+    public ResponseObject deleteUser(int id);
+    public ResponseObject changePassword(int id);
 
 }
