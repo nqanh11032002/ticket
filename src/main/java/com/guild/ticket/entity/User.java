@@ -1,6 +1,7 @@
 package com.guild.ticket.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user")
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class User {
 
     @Id
@@ -40,5 +40,6 @@ public class User {
     private String role;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference(value = "reference-user-payment")
     private List<Payment> payments;
 }

@@ -24,5 +24,6 @@ public class Room {
     private int maxSeat;
 
     @OneToMany(mappedBy = "room")
+    @JsonManagedReference(value = "reference-time-room")
     private List<ShowTime> showTimes;
 }

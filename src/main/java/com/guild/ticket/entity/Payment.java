@@ -1,5 +1,8 @@
 package com.guild.ticket.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +22,7 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "username", referencedColumnName = "username", insertable=false, updatable=false)
+    @JsonBackReference(value = "reference-user-payment")
     private User user;
 
     @Column(length = 35)
@@ -29,11 +33,12 @@ public class Payment {
 
     private double totalPrice;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date transactionDate;
 
-    private int ticket_id;
-
-    @OneToOne
-    @JoinColumn(name = "ticket_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(mappedBy = "payment")
+    @JsonBackReference(value="reference-payment")
     private Ticket ticket;
+
+    private Boolean status;
 }

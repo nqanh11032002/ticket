@@ -11,7 +11,6 @@ public interface TicketMapper {
     TicketMapper INSTANCE = Mappers.getMapper(TicketMapper.class);
 
     @Mapping(source = "payment_id", target = "codePayment")
-    @Mapping(source = "seatId", target = "seat")
     public TicketDTO modelToDTO(Ticket ticket);
 
     public Ticket dtoToModel(TicketDTO ticketDTO);

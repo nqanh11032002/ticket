@@ -73,10 +73,8 @@ public class TicketService implements ITicketService {
         Ticket ticketUpdate = ticketFound.get();
         ticketUpdate.setPayment_id(ticket.getPayment_id());
         ticketUpdate.setShowTime_id(ticket.getShowTime_id());
-        ticketUpdate.setSeatType(ticket.getSeatType());
-        ticketUpdate.setSeatId(ticket.getSeatType());
+        ticketUpdate.setSeat(ticket.getSeat());
         ticketUpdate.setNumSeat(ticket.getNumSeat());
-        ticketUpdate.setTotalPrice(ticket.getTotalPrice());
 
         ticketRepository.save(ticketUpdate);
 

@@ -22,6 +22,6 @@ public class MovieType {
     private String name;
 
     @OneToMany(mappedBy = "movieType")
-    @JsonManagedReference
+    @JsonManagedReference(value = "reference-type-movie")
     private List<Movie> movies;
 }

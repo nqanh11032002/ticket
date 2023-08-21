@@ -36,14 +36,16 @@ public class TicketController implements ITicketController {
     }
 
     @Override
-    @PutMapping ("")
+    @PutMapping ("/{id}")
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject updateTicket(int id, Ticket ticket) {
+    public ResponseObject updateTicket(@PathVariable("id") int id, @RequestBody Ticket ticket) {
         return ticketService.updateTicket(id, ticket);
     }
 
     @Override
-    public ResponseObject removeTicket(int id) {
+    @DeleteMapping ("/{id}")
+    @PreAuthorize("hasRole('client_admin')")
+    public ResponseObject removeTicket(@PathVariable("id") int id) {
         return ticketService.removeTicket(id);
     }
 }
