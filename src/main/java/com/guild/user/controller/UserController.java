@@ -4,7 +4,6 @@ import com.guild.user.controller.interfaces.IUserController;
 import com.guild.user.entity.User;
 import com.guild.user.response.ResponseObject;
 import com.guild.user.service.interfaces.IUserService;
-import com.nimbusds.jose.shaded.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping
+@RequestMapping("api/user")
 public class UserController implements IUserController {
 
     @Autowired
