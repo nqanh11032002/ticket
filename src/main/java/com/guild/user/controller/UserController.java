@@ -4,9 +4,12 @@ import com.guild.user.controller.interfaces.IUserController;
 import com.guild.user.entity.User;
 import com.guild.user.response.ResponseObject;
 import com.guild.user.service.interfaces.IUserService;
+import com.nimbusds.jose.shaded.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -56,9 +59,10 @@ public class UserController implements IUserController {
 
     //Update password of user
     @Override
+    @PutMapping ("/changePassword")
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject changePassword(int id) {
-        return null;
+    public ResponseObject changePassword(@RequestBody Map<String, Object> inputData) {
+        return iUserService.changePassword(inputData);
     }
 
 }

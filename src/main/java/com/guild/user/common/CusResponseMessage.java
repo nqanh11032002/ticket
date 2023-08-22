@@ -16,4 +16,6 @@ public class CusResponseMessage {
     String notFoundUserMess = "User doesn't exist";
     String existedUserMess = "User was founded";
     String deleteUserSuccessMess = "Delete user successfully";
+    String changePassSuccessMess = "Change password successfully";
+
 }

@@ -1,5 +1,6 @@
 package com.guild.user.service;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.guild.user.common.CusResponseMessage;
 import com.guild.user.converter.UserDTOConverter;
 import com.guild.user.dto.UserDTO;
@@ -7,6 +8,7 @@ import com.guild.user.entity.User;
 import com.guild.user.repository.IUserRepository;
 import com.guild.user.response.ResponseObject;
 import com.guild.user.service.interfaces.IUserService;
+import com.nimbusds.jose.shaded.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -143,6 +146,32 @@ public class UserService implements IUserService {
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
                 .message(cusResponseMessage.getDeleteUserSuccessMess())
+                .data(null).build();
+    }
+
+    @Override
+    public ResponseObject changePassword(Map<String, Object> inputData) {
+
+        String username = inputData.get("username").toString();
+        String newPassword = inputData.get("newPassword").toString();
+
+        var userFound = userRepository.findByUsername(username);
+
+        if(userFound.isEmpty()){
+            return ResponseObject.builder()
+                    .status(HttpStatus.OK.name())
+                    .message(cusResponseMessage.getNotFoundUserMess())
+                    .data(null).build();
+        }
+
+        User user = (User) userFound.get();
+        user.setPassword(newPassword);
+
+        userRepository.save(user);
+
+        return ResponseObject.builder()
+                .status(HttpStatus.OK.name())
+                .message(cusResponseMessage.getChangePassSuccessMess())
                 .data(null).build();
     }
 }
