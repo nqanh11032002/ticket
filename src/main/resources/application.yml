@@ -5,10 +5,10 @@ spring:
         enabled: false
     gateway:
       routes:
-#        - id: ticket-service
-#          uri: https://ticket.up.railway.app/api/ticket
-#          predicates:
-#            - Host=**.railway.app
+        - id: ticket-service
+          uri: https://ticket.up.railway.app/api/ticket
+          predicates:
+            - Host=**.railway.app
         - id: ticket-service
           uri: https://ticket.up.railway.app/api/payment
           predicates:
