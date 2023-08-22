@@ -11,8 +11,6 @@ public class TicketDTO {
 
     private int showTime_id;
 
-    private String seatType;
-
     private String seat;
 
     private int numSeat;

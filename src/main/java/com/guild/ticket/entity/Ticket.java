@@ -1,9 +1,6 @@
 package com.guild.ticket.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,19 +19,19 @@ public class Ticket{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private int payment_id;
+
     @OneToOne
     @JoinColumn(name = "payment_id", referencedColumnName = "id", insertable=false, updatable=false)
     @JsonManagedReference(value="reference-payment")
     private Payment payment;
 
-    private int payment_id;
+    private int showTime_id;
 
     @OneToOne
     @JoinColumn(name = "showTime_id", referencedColumnName = "id", insertable=false, updatable=false)
     @JsonManagedReference(value="reference-showtime")
     private ShowTime showTime;
-
-    private int showTime_id;
 
     private String seat;
 

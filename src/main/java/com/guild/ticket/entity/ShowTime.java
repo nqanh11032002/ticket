@@ -29,12 +29,8 @@ public class ShowTime {
     @JsonBackReference(value = "reference-time-movie")
     private Movie movie;
 
-    private int room_id;
-
-    @ManyToOne
-    @JoinColumn(name = "room_id", referencedColumnName = "id", insertable=false, updatable=false)
-    @JsonBackReference(value = "reference-time-room")
-    private Room room;
+    @Column(length = 20)
+    private String room;
 
     @Column(length = 20)
     private String startTime;

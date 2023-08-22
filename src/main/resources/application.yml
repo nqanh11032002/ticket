@@ -10,14 +10,13 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/ticketmovie
     username: root
-#    password: 3747267Bi
+    password: 3747267Bi
 
   jpa:
     hibernate:
       dialect: org.hibernate.dialect.MySQL8Dialect
       ddl-auto: update
     show-sql: true
-
 
   application:
     name: UserService

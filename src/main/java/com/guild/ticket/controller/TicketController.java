@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping(path = "/api/ticket")
 public class TicketController implements ITicketController {
@@ -26,6 +29,13 @@ public class TicketController implements ITicketController {
     @PreAuthorize("hasRole('client_admin')")
     public ResponseObject getTicketById(@PathVariable("id") int id) {
         return ticketService.getTicketById(id);
+    }
+
+    @Override
+    @GetMapping("/seat/{show_time_id}")
+    @PreAuthorize("hasRole('client_admin')")
+    public List<String> getTicketByShowTimeId(@PathVariable("show_time_id") int show_time_id) {
+        return ticketService.getTicketByShowTimeId(show_time_id);
     }
 
     @Override
