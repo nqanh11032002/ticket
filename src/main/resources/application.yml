@@ -19,7 +19,7 @@ spring:
     show-sql: true
 
   application:
-    name: UserService
+    name: ticket-service
 
 jwt:
   auth:
