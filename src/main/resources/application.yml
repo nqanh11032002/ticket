@@ -8,7 +8,8 @@ spring:
         - id: UserService
           uri: localhost:8085
           predicates:
-            - Path=https://user.up.railway.app/api/user/**
+            - Path=/api/user/**
+            - Host=user.up.railway.app
   application:
     name: gateway
 
