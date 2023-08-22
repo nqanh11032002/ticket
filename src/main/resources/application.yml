@@ -6,9 +6,9 @@ spring:
     gateway:
       routes:
         - id: ticket-service
-          uri: https://ticket.up.railway.app
+          uri: https://ticket.up.railway.app/api/ticket
           predicates:
-            - Host=www.railway.app
+            - Host=**.railway.app
   application:
     name: gateway
 
