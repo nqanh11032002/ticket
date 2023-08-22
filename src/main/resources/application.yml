@@ -14,7 +14,7 @@ spring:
           predicates:
             - Host=**.railway.app
         - id: UserService
-          uri: https://ticket.up.railway.app/api/user/listUsers
+          uri: https://ticket.up.railway.app/api/user
           predicates:
             - Host=**.railway.app
   application:
