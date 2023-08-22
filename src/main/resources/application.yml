@@ -6,10 +6,9 @@ spring:
     gateway:
       routes:
         - id: UserService
-          uri: localhost:8085
+          uri: https://ticket.up.railway.app/api/**
           predicates:
-            - Path=/api/user/**
-            - Host=user.up.railway.app
+            - Host=https://railway.app/project/8fe999fe-3a8e-4c5d-9f0c-71a2122275f8
   application:
     name: gateway
 
