@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping
 public class UserController implements IUserController {
 
     @Autowired
