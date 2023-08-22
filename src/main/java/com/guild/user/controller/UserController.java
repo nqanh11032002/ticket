@@ -13,41 +13,52 @@ import org.springframework.web.bind.annotation.*;
 public class UserController implements IUserController {
 
     @Autowired
-    private IUserService userService;
+    private IUserService iUserService;
 
+    //List all users
     @Override
-    @GetMapping("")
+    @GetMapping("/listUsers")
     @PreAuthorize("hasRole('client_admin')")
     public ResponseObject getAllUser() {
-        return userService.getAllUser();
+        return iUserService.getAllUser();
     }
 
+    //Get an user
     @Override
-    @GetMapping("/find")
+    @GetMapping("/getUser")
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject getUser(@RequestParam("id") int id) {
-        return userService.getUser(id);
+    public ResponseObject getUser(@RequestParam("username") String username) {
+        return iUserService.getUser(username);
     }
 
+    //Insert an user
     @Override
-    @PutMapping("/{id}")
-    @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject updateUser(@PathVariable("id") int id, @RequestBody User user) {
-
-        return userService.updateUser(id, user);
-    }
-
-    @Override
-    @PostMapping("")
+    @PostMapping("/register")
     @PreAuthorize("hasRole('client_admin')")
     public ResponseObject insertUser(@RequestBody User user) {
-        return userService.insertUser(user);
+        return iUserService.insertUser(user);
+    }
+
+    //Delete an user
+    @Override
+    @DeleteMapping ("/deleteUser")
+    @PreAuthorize("hasRole('client_admin')")
+    public ResponseObject deleteUser(@RequestParam("username") String username) {
+        return iUserService.deleteUser(username);
     }
 
     @Override
-    @DeleteMapping("")
+    @PutMapping ("/updateUser")
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject removeUser(@RequestParam("id") int id) {
-        return userService.removeUser(id);
+    public ResponseObject updateUser(@RequestParam("username") String username, @RequestBody User user) {
+        return iUserService.updateUser(username, user);
     }
+
+    //Update password of user
+    @Override
+    @PreAuthorize("hasRole('client_admin')")
+    public ResponseObject changePassword(int id) {
+        return null;
+    }
+
 }

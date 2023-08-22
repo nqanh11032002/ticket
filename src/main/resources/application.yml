@@ -10,12 +10,12 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/ticketmovie
     username: root
+    password: Nguyen@1475369
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
-
 
   application:
     name: UserService
