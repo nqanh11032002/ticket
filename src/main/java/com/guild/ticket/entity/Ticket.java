@@ -39,7 +39,6 @@ public class Ticket{
 
     private int numSeat;
 
-    @Temporal(TemporalType.DATE)
     @CreationTimestamp
     private Date created_at;
 }

@@ -7,13 +7,16 @@ import com.guild.ticket.repository.ITicketRepository;
 import com.guild.ticket.response.ResponseMessage;
 import com.guild.ticket.response.ResponseObject;
 import com.guild.ticket.service.interfaces.ITicketService;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -114,11 +117,25 @@ public class TicketService implements ITicketService {
                     .data(null).build();
         }
 
-        ticketRepository.deleteById(id);
+        LocalDate dateNow = LocalDate.now();
+
+        //convert type date to LocalDate
+        Date dateTicket = ticketFound.get().getCreated_at();
+
+        LocalDate localDate1 = dateTicket.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        if (dateNow.isAfter(localDate1.plusMonths(1))) {
+            ticketRepository.deleteById(id);
+
+            return ResponseObject.builder()
+                    .status(HttpStatus.OK.name())
+                    .message("Remove ticket by ID: " + id + " successfully")
+                    .data(ticketFound).build();
+        }
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message("Remove ticket by ID: " + id + " successfully")
-                .data(ticketFound).build();
+                .message("You can't remove ticket right now.!!!")
+                .data(null).build();
     }
 }
