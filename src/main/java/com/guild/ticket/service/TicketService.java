@@ -4,6 +4,7 @@ import com.guild.ticket.dto.TicketDTO;
 import com.guild.ticket.entity.Ticket;
 import com.guild.ticket.mapper.ITicketMapper;
 import com.guild.ticket.repository.ITicketRepository;
+import com.guild.ticket.response.ResponseMessage;
 import com.guild.ticket.response.ResponseObject;
 import com.guild.ticket.service.interfaces.ITicketService;
 import org.apache.tomcat.util.json.JSONParser;
@@ -26,41 +27,40 @@ public class TicketService implements ITicketService {
     @Autowired
     private ITicketMapper ticketMapper;
 
-
     @Override
-    public ResponseObject getAllTicket(int page) {
+    public ResponseObject getAllTicket(int page, int records) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        PageRequest pageRequest = PageRequest.of(page, 2, sort);
+        PageRequest pageRequest = PageRequest.of(page, records, sort);
 
         List<Ticket> tickets = ticketRepository.findAll(pageRequest).getContent();
 
         if (tickets.size() == 0) {
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message("List of tickets is empty")
+                    .message(ResponseMessage.getAllTicketNotFound)
                     .data(tickets).build();
         }
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message("List of tickets has been found")
+                .message(ResponseMessage.getAllTicket)
                 .data(tickets).build();
     }
 
     @Override
-    public ResponseObject getTicketById(int id) {
-        var ticket = ticketRepository.findById(id);
+    public ResponseObject getTicketByPaymentId(int payment_id) {
+        var ticket = ticketRepository.findTicketByPayment_id(payment_id);
 
         if (ticket.isEmpty()) {
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message("Not found ticket by ID: " + id)
+                    .message("Not found ticket by Payment_id: " + payment_id)
                     .data(ticket).build();
         }
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message("Ticket found with ID: " + id)
+                .message("Ticket found with Payment_id: " + payment_id)
                 .data(ticket).build();
     }
 
@@ -101,31 +101,6 @@ public class TicketService implements ITicketService {
         TicketDTO ticketDTO = ticketMapper.modelToDTO(ticket);
         return ResponseObject.builder().status(HttpStatus.OK.name())
                 .message("Insert new ticket successfully").data(ticketDTO).build();
-    }
-
-    @Override
-    public ResponseObject updateTicket(int id, Ticket ticket) {
-        var ticketFound = ticketRepository.findById(id);
-
-        if (ticketFound.isEmpty()) {
-            return ResponseObject.builder()
-                    .status(HttpStatus.OK.name())
-                    .message("Not found ticket by ID: " + id + " to update")
-                    .data(ticket).build();
-        }
-
-        Ticket ticketUpdate = ticketFound.get();
-        ticketUpdate.setPayment_id(ticket.getPayment_id());
-        ticketUpdate.setShowTime_id(ticket.getShowTime_id());
-        ticketUpdate.setSeat(ticket.getSeat());
-        ticketUpdate.setNumSeat(ticket.getNumSeat());
-
-        ticketRepository.save(ticketUpdate);
-
-        return ResponseObject.builder()
-                .status(HttpStatus.OK.name())
-                .message("Update ticket by ID: " + id + " successfully")
-                .data(ticket).build();
     }
 
     @Override

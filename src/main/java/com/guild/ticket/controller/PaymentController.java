@@ -18,8 +18,8 @@ public class PaymentController implements IPaymentController {
     @Override
     @GetMapping("")
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject getAllPayment(@RequestParam("page") int page) {
-        return paymentService.getAllPayment(page);
+    public ResponseObject getAllPayment(@RequestParam("page") int page, int records) {
+        return paymentService.getAllPayment(page, records);
     }
 
     @Override
@@ -27,6 +27,13 @@ public class PaymentController implements IPaymentController {
     @PreAuthorize("hasRole('client_admin')")
     public ResponseObject getPaymentByUsername(@RequestParam("username") String username) {
         return paymentService.getPaymentByUsername(username);
+    }
+
+    @Override
+    @DeleteMapping("")
+    @PreAuthorize("hasRole('client_admin')")
+    public ResponseObject removePayment(@RequestParam("id") int id) {
+        return paymentService.removePayment(id);
     }
 
     @Override

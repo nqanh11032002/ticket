@@ -18,9 +18,9 @@ public class PaymentService implements IPaymentService {
     private IPaymentRepository paymentRepository;
 
     @Override
-    public ResponseObject getAllPayment(int page) {
+    public ResponseObject getAllPayment(int page, int records) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        PageRequest pageRequest = PageRequest.of(page, 2, sort);
+        PageRequest pageRequest = PageRequest.of(page, records, sort);
 
         List<Payment> payments = paymentRepository.findAll(pageRequest).getContent();
 
@@ -54,6 +54,25 @@ public class PaymentService implements IPaymentService {
                 .status(HttpStatus.OK.name())
                 .message("Payment found with ID: " + username)
                 .data(payment).build();
+    }
+
+    @Override
+    public ResponseObject removePayment(int id) {
+        var paymentFound = paymentRepository.findById(id);
+
+        if (paymentFound.isEmpty()) {
+            return ResponseObject.builder()
+                    .status(HttpStatus.OK.name())
+                    .message("Not found payment by ID: " + id + " to remove")
+                    .data(null).build();
+        }
+
+        paymentRepository.deleteById(id);
+
+        return ResponseObject.builder()
+                .status(HttpStatus.OK.name())
+                .message("Remove payment by ID: " + id + " successfully")
+                .data(paymentFound).build();
     }
 
     @Override

@@ -15,5 +15,4 @@ public class TicketDTO {
 
     private int numSeat;
 
-    private double totalPrice;
 }

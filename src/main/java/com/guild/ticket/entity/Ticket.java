@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -36,4 +38,8 @@ public class Ticket{
     private String seat;
 
     private int numSeat;
+
+    @Temporal(TemporalType.DATE)
+    @CreationTimestamp
+    private Date created_at;
 }

@@ -19,19 +19,19 @@ public class TicketController implements ITicketController {
     @Override
     @GetMapping("")
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject getAllTicket(@RequestParam("page") int page) {
-        return ticketService.getAllTicket(page);
+    public ResponseObject getAllTicket(@RequestParam("page") int page, @RequestParam int records) {
+        return ticketService.getAllTicket(page, records);
     }
 
     @Override
-    @GetMapping("/{id}")
+    @GetMapping("/{payment_id}")
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject getTicketById(@PathVariable("id") int id) {
-        return ticketService.getTicketById(id);
+    public ResponseObject getTicketByPaymentId(@PathVariable("payment_id") int id) {
+        return ticketService.getTicketByPaymentId(id);
     }
 
     @Override
-    @GetMapping("/seat/{show_time_id}")
+    @GetMapping("/seat-booked/{show_time_id}")
     @PreAuthorize("hasRole('client_admin')")
     public List<String> getTicketByShowTimeId(@PathVariable("show_time_id") int show_time_id) {
         return ticketService.getTicketByShowTimeId(show_time_id);
@@ -44,12 +44,6 @@ public class TicketController implements ITicketController {
         return ticketService.insertTicket(ticket);
     }
 
-    @Override
-    @PutMapping ("/{id}")
-    @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject updateTicket(@PathVariable("id") int id, @RequestBody Ticket ticket) {
-        return ticketService.updateTicket(id, ticket);
-    }
 
     @Override
     @DeleteMapping ("/{id}")
