@@ -5,18 +5,22 @@ spring:
         enabled: true
     gateway:
       routes:
-        - id: ticket-service
-          uri: https://ticket.up.railway.app/api/ticket
-          predicates:
-            - Host=**.railway.app
-        - id: ticket-service
-          uri: https://ticket.up.railway.app/api/payment
-          predicates:
-            - Host=**.railway.app
-        - id: user-service
-          uri: https://user.up.railway.app/api/user
-          predicates:
-            - Host=**.railway.app
+        # - id: ticket-service
+        #   uri: https://ticket.up.railway.app/api/ticket
+        #   predicates:
+        #     - Host=**.railway.app
+        # - id: ticket-service
+        #   uri: https://ticket.up.railway.app/api/payment
+        #   predicates:
+        #     - Host=**.railway.app
+        # - id: user-service
+        #   uri: https://user.up.railway.app/api/user
+        #   predicates:
+        #     - Host=**.railway.app
+          - id: user-service
+            uri: lb://user-service
+            predicates:
+              - Path=/user-service/**
   application:
     name: gateway
 
