@@ -1,5 +1,6 @@
 package com.guild.ticket.controller.interfaces;
 
+import com.guild.ticket.entity.Email;
 import com.guild.ticket.entity.Payment;
 import com.guild.ticket.response.ResponseObject;
 

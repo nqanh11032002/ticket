@@ -19,8 +19,8 @@ public class TicketController implements ITicketController {
     @Override
     @GetMapping("")
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject getAllTicket() {
-        return ticketService.getAllTicket();
+    public ResponseObject getAllTicket(@RequestParam("page") int page) {
+        return ticketService.getAllTicket(page);
     }
 
     @Override

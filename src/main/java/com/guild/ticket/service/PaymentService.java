@@ -19,7 +19,7 @@ public class PaymentService implements IPaymentService {
 
     @Override
     public ResponseObject getAllPayment(int page) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id"); // Example sorting by 'id'
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageRequest = PageRequest.of(page, 2, sort);
 
         List<Payment> payments = paymentRepository.findAll(pageRequest).getContent();

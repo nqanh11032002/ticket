@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface ITicketService {
-    public ResponseObject getAllTicket();
+    public ResponseObject getAllTicket(int page);
 
     public ResponseObject getTicketById(int id);
 

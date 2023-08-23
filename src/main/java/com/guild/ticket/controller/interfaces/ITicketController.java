@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface ITicketController {
-    public ResponseObject getAllTicket();
+    public ResponseObject getAllTicket(int page);
 
     public ResponseObject getTicketById(int id);
 

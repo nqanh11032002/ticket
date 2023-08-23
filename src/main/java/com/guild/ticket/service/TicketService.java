@@ -8,6 +8,8 @@ import com.guild.ticket.response.ResponseObject;
 import com.guild.ticket.service.interfaces.ITicketService;
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +28,11 @@ public class TicketService implements ITicketService {
 
 
     @Override
-    public ResponseObject getAllTicket() {
-        List<Ticket> tickets = ticketRepository.findAll();
+    public ResponseObject getAllTicket(int page) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        PageRequest pageRequest = PageRequest.of(page, 2, sort);
+
+        List<Ticket> tickets = ticketRepository.findAll(pageRequest).getContent();
 
         if (tickets.size() == 0) {
             return ResponseObject.builder()
