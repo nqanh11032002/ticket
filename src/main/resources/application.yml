@@ -8,15 +8,15 @@ spring:
         - id: ticket-service
           uri: https://ticket.up.railway.app/api/ticket
           predicates:
-            - Host=**.ticket.railway.app
+            - Host=**.railway.app/api/ticket
         - id: ticket-service
           uri: https://ticket.up.railway.app/api/payment
           predicates:
-            - Host=**.ticket.railway.app
+            - Host=**.railway.app/api/payment
         - id: user-service
           uri: https://user.up.railway.app/api/user
           predicates:
-            - Host=**.user.railway.app
+            - Host=**.railway.app/api/user
   application:
     name: gateway
 
