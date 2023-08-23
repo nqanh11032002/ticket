@@ -1,0 +1,32 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: myphamskincares@gmail.com
+    password: mpckijfvlqsvvwds
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  main:
+    allow-circular-references: true
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: http://ec2-52-221-236-155.ap-southeast-1.compute.amazonaws.com:8080/realms/Nguyen
+          jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
+
+  application:
+    name: email-service
+
+jwt:
+  auth:
+    converter:
+      resource-id: nguyen-rest-api
+      principle-attribute: preferred_username
+
+server:
+  port: 8087
