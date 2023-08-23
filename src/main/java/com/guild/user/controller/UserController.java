@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/api/user")
 public class UserController implements IUserController {
 
     @Autowired
@@ -19,7 +19,7 @@ public class UserController implements IUserController {
 
     //List all users
     @Override
-    @GetMapping("/listUsers")
+    @GetMapping("")
     @PreAuthorize("hasRole('client_admin')")
     public ResponseObject getAllUser() {
         return iUserService.getAllUser();
