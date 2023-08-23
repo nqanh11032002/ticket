@@ -2,21 +2,21 @@ spring:
   cloud:
     loadbalancer:
       ribbon:
-        enabled: false
+        enabled: true
     gateway:
       routes:
         - id: ticket-service
           uri: https://ticket.up.railway.app/api/ticket
           predicates:
-            - Host=**.railway.app/api/ticket
+            - Host=**.railway.app
         - id: ticket-service
           uri: https://ticket.up.railway.app/api/payment
           predicates:
-            - Host=**.railway.app/api/payment
+            - Host=**.railway.app
         - id: user-service
           uri: https://user.up.railway.app/api/user
           predicates:
-            - Host=**.railway.app/api/user
+            - Host=**.railway.app
   application:
     name: gateway
 
