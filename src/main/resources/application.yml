@@ -4,6 +4,10 @@ spring:
       ribbon:
         enabled: false
     gateway:
+        discovery:
+          locator:
+            enabled: true
+            lower-case-service-id: true
       routes:
         - id: ticket-service
           uri: https://ticket.up.railway.app/api/ticket
