@@ -19,7 +19,7 @@ public class UserController implements IUserController {
 
     //List all users
     @Override
-    @GetMapping("/listUsers")
+    @GetMapping("")
     @PreAuthorize("hasRole('client_admin')")
     public ResponseObject getAllUser() {
         return iUserService.getAllUser();
