@@ -16,7 +16,8 @@ spring:
         - id: user-service
           uri: https://user.up.railway.app/api/user
           predicates:
-            - Host=**.railway.app
+            # - Host=**.railway.app
+            - Path=/api/user/**
   application:
     name: gateway
 
