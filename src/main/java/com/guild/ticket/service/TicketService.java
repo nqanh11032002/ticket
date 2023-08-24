@@ -7,7 +7,6 @@ import com.guild.ticket.repository.ITicketRepository;
 import com.guild.ticket.response.ResponseMessage;
 import com.guild.ticket.response.ResponseObject;
 import com.guild.ticket.service.interfaces.ITicketService;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -54,13 +53,13 @@ public class TicketService implements ITicketService {
         if (ticket.isEmpty()) {
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message("Not found ticket by Payment_id: " + payment_id)
+                    .message(ResponseMessage.getTicketNotFound)
                     .data(ticket).build();
         }
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message("Ticket found with Payment_id: " + payment_id)
+                .message(ResponseMessage.getTicket)
                 .data(ticket).build();
     }
 
@@ -70,7 +69,7 @@ public class TicketService implements ITicketService {
         List<Ticket> tickets = ticketRepository.findTicketsByShowTime_id(show_time_id);
 
         if (tickets.size() == 0) {
-            return List.of("List of tickets is empty");
+            return List.of(ResponseMessage.getAllTicketNotFound);
         }
 
         String seats = tickets.stream()
@@ -93,14 +92,14 @@ public class TicketService implements ITicketService {
 
         if (ticketFound.isPresent()) {
             return ResponseObject.builder().status(HttpStatus.OK.name())
-                    .message("Transaction is existing").data(null).build();
+                    .message(ResponseMessage.insertTicketFail).data(null).build();
         }
 
         ticketRepository.save(ticket);
 
         TicketDTO ticketDTO = ticketMapper.modelToDTO(ticket);
         return ResponseObject.builder().status(HttpStatus.OK.name())
-                .message("Insert new ticket successfully").data(ticketDTO).build();
+                .message(ResponseMessage.insertTicket).data(ticketDTO).build();
     }
 
     @Override
@@ -110,7 +109,7 @@ public class TicketService implements ITicketService {
         if (ticketFound.isEmpty()) {
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message("Not found ticket by ID: " + id + " to remove")
+                    .message(ResponseMessage.removeTicketFail)
                     .data(null).build();
         }
 
@@ -118,7 +117,7 @@ public class TicketService implements ITicketService {
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message("Remove ticket by ID: " + id + " successfully")
+                .message(ResponseMessage.removeTicket)
                 .data(ticketFound).build();
     }
 }

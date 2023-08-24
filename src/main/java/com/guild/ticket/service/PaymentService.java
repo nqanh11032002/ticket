@@ -1,7 +1,9 @@
 package com.guild.ticket.service;
 
 import com.guild.ticket.entity.Payment;
+import com.guild.ticket.mapper.ITicketMapper;
 import com.guild.ticket.repository.IPaymentRepository;
+import com.guild.ticket.response.ResponseMessage;
 import com.guild.ticket.response.ResponseObject;
 import com.guild.ticket.service.interfaces.IPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ public class PaymentService implements IPaymentService {
     @Autowired
     private IPaymentRepository paymentRepository;
 
+
     @Override
     public ResponseObject getAllPayment(int page, int records) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
@@ -28,13 +31,13 @@ public class PaymentService implements IPaymentService {
         {
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message("List of payment is empty")
+                    .message(ResponseMessage.getAllPaymentEmpty)
                     .data(payments).build();
         }
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message("List of payment has been found")
+                .message(ResponseMessage.getAllPayment)
                 .data(payments).build();
     }
 
@@ -46,13 +49,13 @@ public class PaymentService implements IPaymentService {
         {
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message("Not found payment by Username: " + username)
+                    .message(ResponseMessage.getPaymentNotFound)
                     .data(payment).build();
         }
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message("Payment found with ID: " + username)
+                .message(ResponseMessage.getPayment)
                 .data(payment).build();
     }
 
@@ -63,7 +66,7 @@ public class PaymentService implements IPaymentService {
         if (paymentFound.isEmpty()) {
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message("Not found payment by ID: " + id + " to remove")
+                    .message(ResponseMessage.removePaymentFail)
                     .data(null).build();
         }
 
@@ -71,7 +74,7 @@ public class PaymentService implements IPaymentService {
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message("Remove payment by ID: " + id + " successfully")
+                .message(ResponseMessage.removePayment)
                 .data(paymentFound).build();
     }
 
@@ -81,7 +84,7 @@ public class PaymentService implements IPaymentService {
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message("Insert new payment successfully")
+                .message(ResponseMessage.insertPayment)
                 .data(payment).build();
     }
 }
