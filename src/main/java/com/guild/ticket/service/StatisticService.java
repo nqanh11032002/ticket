@@ -8,65 +8,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class StatisticService implements IStatisticService {
     @Autowired
     private IStatisticRepository statisticRepository;
 
     @Override
-    public ResponseObject getStatisticRevenueTicketByDay(int day) {
+    public ResponseObject getStatisticRevenueTicketByDate(String date) {
         try
         {
-            ResponseStatistic statistic = statisticRepository.getStatisticRevenueTicketByDay(day);
+            ResponseStatistic statistic = statisticRepository.getStatisticRevenueTicketByDate(LocalDate.parse(date));
 
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message("Revenue of day: " + day)
+                    .message("Revenue of date: " + date)
                     .data(statistic)
                     .build();
         }catch (Exception e){
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message("Not found any result revenue of day: " + day)
+                    .message("Not found any result revenue of date: " + date)
                     .build();
         }
     }
 
-    @Override
-    public ResponseObject getStatisticRevenueTicketByMonth(int month) {
-        try
-        {
-            ResponseStatistic statistic = statisticRepository.getStatisticRevenueTicketByMonth(month);
-
-            return ResponseObject.builder()
-                    .status(HttpStatus.OK.name())
-                    .message("Revenue of month: " + month)
-                    .data(statistic)
-                    .build();
-        }catch (Exception e){
-            return ResponseObject.builder()
-                    .status(HttpStatus.OK.name())
-                    .message("Not found any result revenue of month: " + month)
-                    .build();
-        }
-    }
-
-    @Override
-    public ResponseObject getStatisticRevenueTicketByYear(int year) {
-        try
-        {
-            ResponseStatistic statistic = statisticRepository.getStatisticRevenueTicketByYear(year);
-
-            return ResponseObject.builder()
-                    .status(HttpStatus.OK.name())
-                    .message("Revenue of year: " + year)
-                    .data(statistic)
-                    .build();
-        }catch (Exception e){
-            return ResponseObject.builder()
-                    .status(HttpStatus.OK.name())
-                    .message("Not found any result revenue of year: " + year)
-                    .build();
-        }
-    }
 }

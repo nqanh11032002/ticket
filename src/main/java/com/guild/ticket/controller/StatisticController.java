@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 @RestController
 @RequestMapping("/api/statistic")
 public class StatisticController implements IStatisticController {
@@ -20,23 +17,10 @@ public class StatisticController implements IStatisticController {
     private IStatisticService statisticService;
 
     @Override
-    @GetMapping("/revenue-ticket-day")
+    @GetMapping("/revenue-ticket")
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject getStatisticRevenueTicketByDay(int day) {
-        return statisticService.getStatisticRevenueTicketByDay(day);
+    public ResponseObject getStatisticRevenueTicketByDate(@RequestParam("date") String date) {
+        return statisticService.getStatisticRevenueTicketByDate(date);
     }
 
-    @Override
-    @GetMapping("/revenue-ticket-month")
-    @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject getStatisticRevenueTicketByMonth(@RequestParam("month") int month) {
-        return statisticService.getStatisticRevenueTicketByMonth(month);
-    }
-
-    @Override
-    @GetMapping("/revenue-ticket-year")
-    @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject getStatisticRevenueTicketByYear(int year) {
-        return statisticService.getStatisticRevenueTicketByYear(year);
-    }
 }
