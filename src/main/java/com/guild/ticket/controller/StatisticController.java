@@ -22,5 +22,4 @@ public class StatisticController implements IStatisticController {
     public ResponseObject getStatisticRevenueTicketByDate(@RequestParam("date") String date) {
         return statisticService.getStatisticRevenueTicketByDate(date);
     }
-
 }

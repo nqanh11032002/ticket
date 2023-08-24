@@ -19,7 +19,7 @@ public class TicketController implements ITicketController {
     @Override
     @GetMapping("")
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject getAllTicket(@RequestParam("page") int page, @RequestParam int records) {
+    public ResponseObject getAllTicket(@RequestParam("page") int page, @RequestParam("records") int records) {
         return ticketService.getAllTicket(page, records);
     }
 

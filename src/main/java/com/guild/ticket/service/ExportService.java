@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
+
 
 @Service
 public class ExportService implements IExportService {
+    private static final String sheetName = "sheet_1";
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
 
@@ -28,7 +29,14 @@ public class ExportService implements IExportService {
 
     @Override
     public void writeHeaderLine() {
-        sheet = workbook.createSheet("Statistic");
+
+        sheet = workbook.getSheet(sheetName);
+
+        //check name sheet is exists
+        if(sheet == null)
+        {
+            sheet = workbook.createSheet(sheetName);
+        }
 
         Row row = sheet.createRow(0);
 
@@ -82,13 +90,18 @@ public class ExportService implements IExportService {
 
     @Override
     public void export(HttpServletResponse response, ResponseStatistic data) throws IOException {
-        writeHeaderLine();
-        writeDataLines(data);
+        try
+        {
+            writeHeaderLine();
+            writeDataLines(data);
 
-        ServletOutputStream outputStream = response.getOutputStream();
-        workbook.write(outputStream);
-        workbook.close();
+            ServletOutputStream outputStream = response.getOutputStream();
+            workbook.write(outputStream);
+//            workbook.close();
+//
+//            outputStream.close();
+        }catch (Exception e){
 
-        outputStream.close();
+        }
     }
 }
