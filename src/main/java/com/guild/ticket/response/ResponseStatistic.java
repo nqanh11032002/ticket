@@ -1,24 +1,17 @@
 package com.guild.ticket.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import java.util.Date;
 
 @Data
-@ToString
-@NoArgsConstructor
 public class ResponseStatistic {
-    private String date;
+    private int data;
 
-    private int ticket;
+    private Long ticket;
 
-    private Long totalPrice;
+    private double totalPrice;
 
-    public ResponseStatistic(String date, int ticket, Long totalPrice) {
-        this.date = date;
+    public ResponseStatistic(int data, Long ticket, double totalPrice) {
+        this.data = data;
         this.ticket = ticket;
         this.totalPrice = totalPrice;
     }

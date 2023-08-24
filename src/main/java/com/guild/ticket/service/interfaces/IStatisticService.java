@@ -6,5 +6,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public interface IStatisticService {
-    public ResponseObject getStatisticRevenueTicketByMonth(String month);
+    public ResponseObject getStatisticRevenueTicketByDay(int day);
+    public ResponseObject getStatisticRevenueTicketByMonth(int month);
+    public ResponseObject getStatisticRevenueTicketByYear(int year);
 }

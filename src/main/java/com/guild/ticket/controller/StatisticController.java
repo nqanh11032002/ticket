@@ -20,9 +20,23 @@ public class StatisticController implements IStatisticController {
     private IStatisticService statisticService;
 
     @Override
-    @GetMapping("/revenue-ticket")
+    @GetMapping("/revenue-ticket-day")
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseObject getStatisticRevenueTicketByMonth(@RequestParam("month") String month) {
+    public ResponseObject getStatisticRevenueTicketByDay(int day) {
+        return statisticService.getStatisticRevenueTicketByDay(day);
+    }
+
+    @Override
+    @GetMapping("/revenue-ticket-month")
+    @PreAuthorize("hasRole('client_admin')")
+    public ResponseObject getStatisticRevenueTicketByMonth(@RequestParam("month") int month) {
         return statisticService.getStatisticRevenueTicketByMonth(month);
+    }
+
+    @Override
+    @GetMapping("/revenue-ticket-year")
+    @PreAuthorize("hasRole('client_admin')")
+    public ResponseObject getStatisticRevenueTicketByYear(int year) {
+        return statisticService.getStatisticRevenueTicketByYear(year);
     }
 }
