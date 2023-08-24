@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -91,7 +93,7 @@ public class TicketService implements ITicketService {
         var ticketFound = ticketRepository.findTicketByPayment_id(ticket.getPayment_id());
 
         if (ticketFound.isPresent()) {
-            return ResponseObject.builder().status(HttpStatus.OK.name())
+            return ResponseObject.builder().status(HttpStatus.CREATED.name())
                     .message(ResponseMessage.insertTicketFail).data(null).build();
         }
 
@@ -113,11 +115,26 @@ public class TicketService implements ITicketService {
                     .data(null).build();
         }
 
-        ticketRepository.deleteById(id);
+        LocalDate dateNow = LocalDate.now();
+
+        //convert type date to LocalDate
+        Date dateTicket = ticketFound.get().getCreated_at();
+
+        LocalDate localDate1 = dateTicket.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        if (dateNow.isAfter(localDate1.plusMonths(1))) {
+            ticketRepository.deleteById(id);
+
+            return ResponseObject.builder()
+                    .status(HttpStatus.OK.name())
+                    .message(ResponseMessage.removeTicket)
+                    .data(ticketFound).build();
+        }
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message(ResponseMessage.removeTicket)
-                .data(ticketFound).build();
+                .message(ResponseMessage.removePaymentFailRightNow)
+                .data(null).build();
+
     }
 }

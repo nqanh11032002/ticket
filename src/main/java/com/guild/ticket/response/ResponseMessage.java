@@ -10,6 +10,7 @@ public class ResponseMessage {
     public static final String insertTicket = "Insert new ticket successfully";
     public static final String removeTicketFail = "Not found ticket to delete";
     public static final String removeTicket = "Delete a ticket successfully";
+    public static final String removePaymentFailRightNow = "Ticket can't delete right now";
     public static final String getAllPaymentEmpty = "List of payment is empty";
     public static final String getAllPayment = "List of payments has been found";
     public static final String getPaymentNotFound = "Not found payment";
