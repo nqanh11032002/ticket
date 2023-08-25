@@ -6,16 +6,16 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class CusResponseMessage {
-    String emptyUsersMess = "List of users is empty";
-    String existedUsersMess = "List of users has been found";
-    String existedUsernameMess = "Username has existed";
-    String insertUserSuccessMess = "Insert new user successfully";
-    String updateUserSuccessMess = "Update user successfully";
-    String notFoundUserMess = "User doesn't exist";
-    String existedUserMess = "User was founded";
-    String deleteUserSuccessMess = "Delete user successfully";
-    String changePassSuccessMess = "Change password successfully";
+    public static final String emptyUsersMess = "List of users is empty";
+    public static final String existedUsersMess = "List of users has been found";
+    public static final String existedUsernameMess = "Username has existed";
+    public static final String insertUserSuccessMess = "Insert new user successfully";
+    public static final String updateUserSuccessMess = "Update user successfully";
+    public static final String notFoundUserMess = "User doesn't exist";
+    public static final String existedUserMess = "User was founded";
+    public static final String deleteUserSuccessMess = "Delete user successfully";
+    public static final String changePassSuccessMess = "Change password successfully";
+    public static final String incorrectOldPassword = "Old password is incorrect";
 
 }

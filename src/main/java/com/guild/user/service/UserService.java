@@ -1,6 +1,5 @@
 package com.guild.user.service;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.guild.user.common.CusResponseMessage;
 import com.guild.user.converter.UserDTOConverter;
 import com.guild.user.dto.UserDTO;
@@ -8,26 +7,19 @@ import com.guild.user.entity.User;
 import com.guild.user.repository.IUserRepository;
 import com.guild.user.response.ResponseObject;
 import com.guild.user.service.interfaces.IUserService;
-import com.nimbusds.jose.shaded.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService implements IUserService {
     @Autowired
     private IUserRepository userRepository;
-
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
-    private final CusResponseMessage cusResponseMessage = new CusResponseMessage();
     private final UserDTOConverter userDTOConverter = new UserDTOConverter();
 
     @Override
@@ -38,7 +30,7 @@ public class UserService implements IUserService {
 
            return ResponseObject.builder()
                    .status(HttpStatus.OK.name())
-                   .message(cusResponseMessage.getEmptyUsersMess())
+                   .message(CusResponseMessage.emptyUsersMess)
                    .data(null).build();
         }
 
@@ -53,44 +45,44 @@ public class UserService implements IUserService {
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message(cusResponseMessage.getExistedUsersMess())
+                .message(CusResponseMessage.existedUsersMess)
                 .data(userDTOList).build();
     }
 
     @Override
     public ResponseObject getUser(String username) {
-        var user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findUserByUsername(username);
 
         if (user.isEmpty()) {
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message(cusResponseMessage.getNotFoundUserMess())
+                    .message(CusResponseMessage.notFoundUserMess)
                     .data(null).build();
         }
 
         //Convert User to UserDTO
-        UserDTO userDTO = userDTOConverter.userToUserDTO((User) user.get());
+        UserDTO userDTO = userDTOConverter.userToUserDTO(user.get());
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message(cusResponseMessage.getExistedUserMess())
+                .message(CusResponseMessage.existedUserMess)
                 .data(userDTO).build();
     }
 
     @Override
     public ResponseObject updateUser(String username, User user) {
-        var userFound = userRepository.findByUsername(username);
+        Optional<User> userFound = userRepository.findUserByUsername(username);
 
         if(userFound.isEmpty()){
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message(cusResponseMessage.getNotFoundUserMess())
+                    .message(CusResponseMessage.notFoundUserMess)
                     .data(null).build();
         }
 
         User userUpdate = User.builder()
-                    .username(((User) userFound.get()).getUsername())
-                    .password(((User) userFound.get()).getPassword())
+                    .username((userFound.get()).getUsername())
+                    .password((userFound.get()).getPassword())
                     .email(user.getEmail())
                     .phone(user.getPhone())
                     .firstName(user.getFirstName())
@@ -102,19 +94,19 @@ public class UserService implements IUserService {
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message(cusResponseMessage.getUpdateUserSuccessMess())
+                .message(CusResponseMessage.updateUserSuccessMess)
                 .data(userDTO).build();
     }
 
     @Override
     public ResponseObject insertUser(User user) {
-        var userFoundByUserName = userRepository.findByUsername(user.getUsername());
+        Optional<User> userFoundByUserName = userRepository.findUserByUsername(user.getUsername());
 
         if(userFoundByUserName.isPresent())
         {
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message(cusResponseMessage.getExistedUserMess())
+                    .message(CusResponseMessage.existedUsernameMess)
                     .data(null).build();
         }
 
@@ -126,26 +118,26 @@ public class UserService implements IUserService {
         UserDTO userDTO = userDTOConverter.userToUserDTO(user);
 
         return ResponseObject.builder()
-                .status(HttpStatus.CREATED.name())
-                .message(cusResponseMessage.getInsertUserSuccessMess())
+                .status(HttpStatus.OK.name())
+                .message(CusResponseMessage.insertUserSuccessMess)
                 .data(userDTO).build();
     }
 
     @Override
     public ResponseObject deleteUser(String username) {
-        var userFound = userRepository.findByUsername(username);
+        Optional<User> userFound = userRepository.findUserByUsername(username);
 
         if(userFound.isEmpty()){
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message(cusResponseMessage.getNotFoundUserMess())
+                    .message(CusResponseMessage.notFoundUserMess)
                     .data(null).build();
         }
-        userRepository.delete((User) userFound.get());
+        userRepository.delete(userFound.get());
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message(cusResponseMessage.getDeleteUserSuccessMess())
+                .message(CusResponseMessage.deleteUserSuccessMess)
                 .data(null).build();
     }
 
@@ -153,25 +145,36 @@ public class UserService implements IUserService {
     public ResponseObject changePassword(Map<String, Object> inputData) {
 
         String username = inputData.get("username").toString();
+        String oldPassword = inputData.get("oldPassword").toString();
         String newPassword = inputData.get("newPassword").toString();
 
-        var userFound = userRepository.findByUsername(username);
+        Optional<User> userFound = userRepository.findUserByUsername(username);
 
+        // Check existed username
         if(userFound.isEmpty()){
             return ResponseObject.builder()
                     .status(HttpStatus.OK.name())
-                    .message(cusResponseMessage.getNotFoundUserMess())
+                    .message(CusResponseMessage.notFoundUserMess)
                     .data(null).build();
         }
 
-        User user = (User) userFound.get();
-        user.setPassword(newPassword);
+        // Check correct old password
+        if (!passwordEncoder.matches(oldPassword, userFound.get().getPassword()))
+        {
+            return ResponseObject.builder()
+                    .status(HttpStatus.OK.name())
+                    .message(CusResponseMessage.incorrectOldPassword)
+                    .data(null).build();
+        }
+
+        User user = userFound.get();
+        user.setPassword(passwordEncoder.encode(newPassword));
 
         userRepository.save(user);
 
         return ResponseObject.builder()
                 .status(HttpStatus.OK.name())
-                .message(cusResponseMessage.getChangePassSuccessMess())
+                .message(CusResponseMessage.changePassSuccessMess)
                 .data(null).build();
     }
 }

@@ -8,14 +8,17 @@ spring:
           issuer-uri: http://ec2-52-221-236-155.ap-southeast-1.compute.amazonaws.com:8080/realms/Nguyen
           jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
   datasource:
-    url: jdbc:mysql://containers-us-west-46.railway.app:7770/railway
-    username: root
-    password: cOr2SHnFHSLg5F5mIzGq
+#    url: jdbc:mysql://containers-us-west-46.railway.app:7770/railway
+#    username: root
+#    password: cOr2SHnFHSLg5F5mIzGq
+
+      url: jdbc:mysql://localhost:3306/ticketmovie
+      username: root
+      password: Nguyen@1475369
 
   jpa:
     hibernate:
-      dialect: org.hibernate.dialect.MySQL8Dialect
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
 
   application:
