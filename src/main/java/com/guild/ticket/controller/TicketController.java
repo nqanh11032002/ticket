@@ -25,21 +25,21 @@ public class TicketController implements ITicketController {
 
     @Override
     @GetMapping("/{payment_id}")
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseObject getTicketByPaymentId(@PathVariable("payment_id") int id) {
         return ticketService.getTicketByPaymentId(id);
     }
 
     @Override
-    @GetMapping("/seat-booked/{show_time_id}")
-    @PreAuthorize("hasRole('client_admin')")
-    public List<String> getTicketByShowTimeId(@PathVariable("show_time_id") int show_time_id) {
+    @GetMapping("/seat-booked")
+    @PreAuthorize("hasRole('client_user')")
+    public List<String> getTicketByShowTimeId(@RequestParam("show_time_id") int show_time_id) {
         return ticketService.getTicketByShowTimeId(show_time_id);
     }
 
     @Override
     @PostMapping("")
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseObject insertTicket(@RequestBody Ticket ticket) {
         return ticketService.insertTicket(ticket);
     }

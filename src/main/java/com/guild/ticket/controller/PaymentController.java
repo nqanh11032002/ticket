@@ -23,7 +23,7 @@ public class PaymentController implements IPaymentController {
 
     @Override
     @GetMapping("/find")
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseObject getPaymentByUsername(@RequestParam("username") String username) {
         return paymentService.getPaymentByUsername(username);
     }
@@ -37,7 +37,7 @@ public class PaymentController implements IPaymentController {
 
     @Override
     @PostMapping("")
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseObject insertPayment(@RequestBody Payment payment) {
         return paymentService.insertPayment(payment);
     }
