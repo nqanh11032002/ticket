@@ -16,7 +16,7 @@ spring:
       username: root
       password: Nguyen@1475369
 
-  jpa:
+  jpa:git s
     hibernate:
       ddl-auto: update
     show-sql: true
