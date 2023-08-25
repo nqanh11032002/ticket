@@ -13,7 +13,7 @@ spring:
         - id: ticket-service
           uri: https://ticket.up.railway.app
           predicates:
-            - Host=**.railway.app
+            - Host=**.railway.appgit 
             - Path=/api/payment/**
         - id: user-service
           uri: https://user.up.railway.app
