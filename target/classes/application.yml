@@ -19,9 +19,9 @@ spring:
           issuer-uri: http://ec2-52-221-236-155.ap-southeast-1.compute.amazonaws.com:8080/realms/Nguyen
           jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
   datasource:
-    url: jdbc:mysql://localhost:3306/ticketmovie
+    url: jdbc:mysql://containers-us-west-50.railway.app:7777/railway
     username: root
-#    password: 3747267Bi
+    password: IjRtr04kQPcfdEdGvru8
 
   jpa:
     hibernate:
