@@ -1,6 +1,7 @@
 package com.guild.movie.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,16 +26,13 @@ public class ShowTime {
 
     private String endTime;
 
-    private String room;
+    private String roomId;
 
     @Temporal(TemporalType.DATE)
     private Date dateShow;
 
-    @ManyToMany( fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "movie_showtime",
-            joinColumns = @JoinColumn(name = "showtimeId"),
-            inverseJoinColumns = @JoinColumn(name = "movieId"))
-    @JsonBackReference(value = "reference-time-movie")
-    private List<Movie> movieList;
+    @ManyToOne
+    @JoinColumn(name = "movie_showTime")
+    @JsonManagedReference(value = "reference-showTime-movie")
+    private Movie movie;
 }

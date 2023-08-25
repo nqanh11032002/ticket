@@ -1,5 +1,6 @@
 package com.guild.movie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,10 +44,15 @@ public class Movie {
 
     private Boolean status;
 
-    @ManyToOne
-    private MovieType movieType;
+    @ManyToMany( fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "movie_movieType",
+            joinColumns = @JoinColumn(name = "movieTypeId"),
+            inverseJoinColumns = @JoinColumn(name = "movieId"))
+    private List<MovieType> movieTypes;
 
-    @ManyToMany(mappedBy = "movieList")
-    @JsonManagedReference(value = "reference-time-movie")
-    private List<ShowTime> showtimes;
+    @OneToMany(mappedBy = "movie")
+    @JsonManagedReference(value = "reference-showTime-movie")
+    @JsonIgnore
+    private List<ShowTime> showTimes;
 }

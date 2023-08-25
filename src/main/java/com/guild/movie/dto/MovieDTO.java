@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -41,8 +42,5 @@ public class MovieDTO {
 
     private Boolean status;
 
-    private Integer movieTypeId;
-
-//    private List<ShowTime> showTimes;
-
+    private List<Integer> movieTypeIds;
 }
